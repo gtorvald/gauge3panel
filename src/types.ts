@@ -1,4 +1,4 @@
-type Color = "red" | "green" | "blue" | "yellow" | "orange" | "purple";
+type Color = 'red' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple';
 
 export interface SimpleOptions {
   firstMin: number;

@@ -99,8 +99,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-var colorGray = '#202226';
-var colorGreen = '#73bf69';
+var colorGray = "#202226";
+var colorGreen = "#73bf69";
 var SimplePanel = function SimplePanel(_a) {
   var options = _a.options,
       data = _a.data,
@@ -111,80 +111,80 @@ var SimplePanel = function SimplePanel(_a) {
   var thirdColor;
 
   switch (options.firstColor) {
-    case 'red':
-      firstColor = '#ed485b';
+    case "red":
+      firstColor = "#ed485b";
       break;
 
-    case 'green':
-      firstColor = '#73bf69';
+    case "green":
+      firstColor = "#73bf69";
       break;
 
-    case 'blue':
-      firstColor = '#5794f2';
+    case "blue":
+      firstColor = "#5794f2";
       break;
 
-    case 'orange':
-      firstColor = '#f3973e';
+    case "orange":
+      firstColor = "#f3973e";
       break;
 
-    case 'purple':
-      firstColor = '#b877d9';
+    case "purple":
+      firstColor = "#b877d9";
       break;
 
-    case 'yellow':
-      firstColor = '#fadf4b';
+    case "yellow":
+      firstColor = "#fadf4b";
       break;
   }
 
   switch (options.secondColor) {
-    case 'red':
-      secondColor = '#ed485b';
+    case "red":
+      secondColor = "#ed485b";
       break;
 
-    case 'green':
-      secondColor = '#73bf69';
+    case "green":
+      secondColor = "#73bf69";
       break;
 
-    case 'blue':
-      secondColor = '#5794f2';
+    case "blue":
+      secondColor = "#5794f2";
       break;
 
-    case 'orange':
-      secondColor = '#f3973e';
+    case "orange":
+      secondColor = "#f3973e";
       break;
 
-    case 'purple':
-      secondColor = '#b877d9';
+    case "purple":
+      secondColor = "#b877d9";
       break;
 
-    case 'yellow':
-      secondColor = '#fadf4b';
+    case "yellow":
+      secondColor = "#fadf4b";
       break;
   }
 
   switch (options.thirdColor) {
-    case 'red':
-      thirdColor = '#ed485b';
+    case "red":
+      thirdColor = "#ed485b";
       break;
 
-    case 'green':
-      thirdColor = '#73bf69';
+    case "green":
+      thirdColor = "#73bf69";
       break;
 
-    case 'blue':
-      thirdColor = '#5794f2';
+    case "blue":
+      thirdColor = "#5794f2";
       break;
 
-    case 'orange':
-      thirdColor = '#f3973e';
+    case "orange":
+      thirdColor = "#f3973e";
       break;
 
-    case 'purple':
-      thirdColor = '#b877d9';
+    case "purple":
+      thirdColor = "#b877d9";
       break;
 
-    case 'yellow':
-      thirdColor = '#fadf4b';
+    case "yellow":
+      thirdColor = "#fadf4b";
       break;
   }
 
@@ -202,42 +202,42 @@ var SimplePanel = function SimplePanel(_a) {
   var firstValue = 0;
   var secondValue = 0;
   var thirdValue = 0;
-  var firstBaseName = 'null base';
-  var secondBaseName = 'null base';
-  var thirdBaseName = 'null base';
-  var rotate = 'rotate(-195 ' + width / 2 + ' ' + heightUse + ')';
+  var firstBaseName = "null base";
+  var secondBaseName = "null base";
+  var thirdBaseName = "null base";
+  var rotate = "rotate(-195 " + width / 2 + " " + heightUse + ")";
   var radii = data.series.filter(function (series) {
-    return series.refId === 'A';
+    return series.refId === "A";
   }).map(function (series) {
     firstBaseName = series.name;
     return series;
   }).map(function (series) {
     return series.fields.find(function (field) {
-      return field.type === 'number';
+      return field.type === "number";
     });
   }).map(function (field) {
     return field === null || field === void 0 ? void 0 : field.values.get(field.values.length - 1);
   });
   var radiiB = data.series.filter(function (series) {
-    return series.refId === 'B';
+    return series.refId === "B";
   }).map(function (series) {
     secondBaseName = series.name;
     return series;
   }).map(function (series) {
     return series.fields.find(function (field) {
-      return field.type === 'number';
+      return field.type === "number";
     });
   }).map(function (field) {
     return field === null || field === void 0 ? void 0 : field.values.get(field.values.length - 1);
   });
   var radiiC = data.series.filter(function (series) {
-    return series.refId === 'C';
+    return series.refId === "C";
   }).map(function (series) {
     thirdBaseName = series.name;
     return series;
   }).map(function (series) {
     return series.fields.find(function (field) {
-      return field.type === 'number';
+      return field.type === "number";
     });
   }).map(function (field) {
     return field === null || field === void 0 ? void 0 : field.values.get(field.values.length - 1);
@@ -297,7 +297,7 @@ var SimplePanel = function SimplePanel(_a) {
     var arc = (firstValue - options.firstMin) / (options.firstMax - options.firstMin);
     var dashValue = firstRadius * Math.PI * 2 * mainArc * arc;
     var dashBalance = firstRadius * Math.PI * 2 - dashValue;
-    var dashArray = dashValue + ' ' + dashBalance;
+    var dashArray = dashValue + " " + dashBalance;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
       id: "fon",
       r: firstRadius,
@@ -319,7 +319,7 @@ var SimplePanel = function SimplePanel(_a) {
     var arc = (secondValue - options.secondMin) / (options.secondMax - options.secondMin);
     var dashValue = secondRadius * Math.PI * 2 * mainArc * arc;
     var dashBalance = secondRadius * Math.PI * 2 - dashValue;
-    var dashArray = dashValue + ' ' + dashBalance;
+    var dashArray = dashValue + " " + dashBalance;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
       id: "fon",
       r: secondRadius,
@@ -341,7 +341,7 @@ var SimplePanel = function SimplePanel(_a) {
     var arc = (thirdValue - options.thirdMin) / (options.thirdMax - options.thirdMin);
     var dashValue = thirdRadius * Math.PI * 2 * mainArc * arc;
     var dashBalance = thirdRadius * Math.PI * 2 - dashValue;
-    var dashArray = dashValue + ' ' + dashBalance;
+    var dashArray = dashValue + " " + dashBalance;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("circle", {
       id: "fon",
       r: thirdRadius,
@@ -410,28 +410,28 @@ __webpack_require__.r(__webpack_exports__);
 
 var plugin = new _grafana_data__WEBPACK_IMPORTED_MODULE_0__["PanelPlugin"](_SimplePanel__WEBPACK_IMPORTED_MODULE_1__["SimplePanel"]).setPanelOptions(function (builder) {
   return builder.addNumberInput({
-    path: 'firstMin',
-    name: 'Min for first database',
+    path: "firstMin",
+    name: "Min for first database",
     defaultValue: 0
   }).addNumberInput({
-    path: 'firstMax',
-    name: 'Max fo first database',
+    path: "firstMax",
+    name: "Max fo first database",
     defaultValue: 100
   }).addNumberInput({
-    path: 'secondMin',
-    name: 'Min fo second database',
+    path: "secondMin",
+    name: "Min fo second database",
     defaultValue: 0
   }).addNumberInput({
-    path: 'secondMax',
-    name: 'Max fo second database',
+    path: "secondMax",
+    name: "Max fo second database",
     defaultValue: 100
   }).addNumberInput({
-    path: 'thirdMin',
-    name: 'Min fo third database',
+    path: "thirdMin",
+    name: "Min fo third database",
     defaultValue: 0
   }).addNumberInput({
-    path: 'thirdMax',
-    name: 'Max fo third database',
+    path: "thirdMax",
+    name: "Max fo third database",
     defaultValue: 100
   }) // .addTextInput({
   //   path: 'text',
@@ -467,78 +467,78 @@ var plugin = new _grafana_data__WEBPACK_IMPORTED_MODULE_0__["PanelPlugin"](_Simp
   //   showIf: config => config.showSeriesCount,
   // })
   .addRadio({
-    path: 'firstColor',
-    name: 'Color of first database',
-    defaultValue: 'yellow',
+    path: "firstColor",
+    name: "Color of first database",
+    defaultValue: "yellow",
     settings: {
       options: [{
-        value: 'red',
-        label: 'Red'
+        value: "red",
+        label: "Red"
       }, {
-        value: 'green',
-        label: 'Green'
+        value: "green",
+        label: "Green"
       }, {
-        value: 'blue',
-        label: 'Blue'
+        value: "blue",
+        label: "Blue"
       }, {
-        value: 'yellow',
-        label: 'Yellow'
+        value: "yellow",
+        label: "Yellow"
       }, {
-        value: 'orange',
-        label: 'Orange'
+        value: "orange",
+        label: "Orange"
       }, {
-        value: 'purple',
-        label: 'Purple'
+        value: "purple",
+        label: "Purple"
       }]
     }
   }).addRadio({
-    path: 'secondColor',
-    name: 'Color of second database',
-    defaultValue: 'blue',
+    path: "secondColor",
+    name: "Color of second database",
+    defaultValue: "blue",
     settings: {
       options: [{
-        value: 'red',
-        label: 'Red'
+        value: "red",
+        label: "Red"
       }, {
-        value: 'green',
-        label: 'Green'
+        value: "green",
+        label: "Green"
       }, {
-        value: 'blue',
-        label: 'Blue'
+        value: "blue",
+        label: "Blue"
       }, {
-        value: 'yellow',
-        label: 'Yellow'
+        value: "yellow",
+        label: "Yellow"
       }, {
-        value: 'orange',
-        label: 'Orange'
+        value: "orange",
+        label: "Orange"
       }, {
-        value: 'purple',
-        label: 'Purple'
+        value: "purple",
+        label: "Purple"
       }]
     }
   }).addRadio({
-    path: 'thirdColor',
-    name: 'Color of third database',
-    defaultValue: 'red',
+    path: "thirdColor",
+    name: "Color of third database",
+    defaultValue: "red",
     settings: {
       options: [{
-        value: 'red',
-        label: 'Red'
+        value: "red",
+        label: "Red"
       }, {
-        value: 'green',
-        label: 'Green'
+        value: "green",
+        label: "Green"
       }, {
-        value: 'blue',
-        label: 'Blue'
+        value: "blue",
+        label: "Blue"
       }, {
-        value: 'yellow',
-        label: 'Yellow'
+        value: "yellow",
+        label: "Yellow"
       }, {
-        value: 'orange',
-        label: 'Orange'
+        value: "orange",
+        label: "Orange"
       }, {
-        value: 'purple',
-        label: 'Purple'
+        value: "purple",
+        label: "Purple"
       }]
     }
   });

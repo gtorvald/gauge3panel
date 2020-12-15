@@ -1,0 +1,40 @@
+{
+  "type": "panel",
+  "name": "Gauge3data",
+  "id": "cmc-msu-gauge-3-data",
+  "DataFormats": ["time_series"],
+  "info": {
+    "description": "Gauge-panel using 3 data resources to visualize",
+    "author": {
+      "name": "NikitaAleshin",
+      "url": ""
+    },
+    "keywords": [
+      "cmc.msu.sqi"
+    ],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/simple-react-panel"
+      },
+      {
+        "name": "License",
+        "url": "https://github.com/grafana/simple-react-panel/blob/master/LICENSE"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaVersion": "7.0.x",
+    "plugins": []
+  },
+  "compilerOptions": {
+    "jsx": "react"
+  }
+}

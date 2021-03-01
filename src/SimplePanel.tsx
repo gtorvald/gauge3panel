@@ -4,13 +4,18 @@ import { SimpleOptions } from 'types';
 
 const colorGray = '#202226';
 const colorGreen = '#73bf69';
+const colorRed = '#ed485b';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   let firstColor: string;
+  let firstThresholdColor: string;
   let secondColor: string;
+  let secondThresholdColor: string;
   let thirdColor: string;
+  let thirdThresholdColor: string;
+  let thresholdColor = colorRed;
   switch (options.firstColor) {
     case 'red':
       firstColor = '#ed485b';
@@ -29,6 +34,26 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       break;
     case 'yellow':
       firstColor = '#fadf4b';
+      break;
+  }
+  switch (options.firstThresholdColor) {
+    case 'red':
+      firstThresholdColor = '#ed485b';
+      break;
+    case 'green':
+      firstThresholdColor = '#73bf69';
+      break;
+    case 'blue':
+      firstThresholdColor = '#5794f2';
+      break;
+    case 'orange':
+      firstThresholdColor = '#f3973e';
+      break;
+    case 'purple':
+      firstThresholdColor = '#b877d9';
+      break;
+    case 'yellow':
+      firstThresholdColor = '#fadf4b';
       break;
   }
   switch (options.secondColor) {
@@ -51,6 +76,26 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       secondColor = '#fadf4b';
       break;
   }
+  switch (options.secondThresholdColor) {
+    case 'red':
+      secondThresholdColor = '#ed485b';
+      break;
+    case 'green':
+      secondThresholdColor = '#73bf69';
+      break;
+    case 'blue':
+      secondThresholdColor = '#5794f2';
+      break;
+    case 'orange':
+      secondThresholdColor = '#f3973e';
+      break;
+    case 'purple':
+      secondThresholdColor = '#b877d9';
+      break;
+    case 'yellow':
+      secondThresholdColor = '#fadf4b';
+      break;
+  }
   switch (options.thirdColor) {
     case 'red':
       thirdColor = '#ed485b';
@@ -71,6 +116,26 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       thirdColor = '#fadf4b';
       break;
   }
+  switch (options.thirdThresholdColor) {
+    case 'red':
+      thirdThresholdColor = '#ed485b';
+      break;
+    case 'green':
+      thirdThresholdColor = '#73bf69';
+      break;
+    case 'blue':
+      thirdThresholdColor = '#5794f2';
+      break;
+    case 'orange':
+      thirdThresholdColor = '#f3973e';
+      break;
+    case 'purple':
+      thirdThresholdColor = '#b877d9';
+      break;
+    case 'yellow':
+      thirdThresholdColor = '#fadf4b';
+      break;
+  }
   const scale = Math.min(height, width / 2);
   const heightUse = scale * 0.8;
   const outRadius = scale * 0.75;
@@ -89,6 +154,80 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   let secondBaseName: string | undefined = 'null base';
   let thirdBaseName: string | undefined = 'null base';
   const rotate = 'rotate(-195 ' + width / 2 + ' ' + heightUse + ')';
+  // обработка пороговых значений
+  let dashArray = String(outRadius * Math.PI * 2 * mainArc);
+  let firstThresholdArc = 1;
+  let secondThresholdArc = 1;
+  let thirdThresholdArc = 1;
+  if (options.useFirstThreshold) {
+    if (options.typeFirstThreshold === 'absolute') {
+      if (options.firstThresholdValue < options.firstMin) {
+        options.firstThresholdValue = options.firstMin;
+      } else if (options.firstThresholdValue > options.firstMax) {
+        options.firstThresholdValue = options.firstMax;
+      }
+      firstThresholdArc = (options.firstThresholdValue - options.firstMin) / (options.firstMax - options.firstMin);
+    } else {
+      if (options.firstThresholdValue < 0) {
+        options.firstThresholdValue = 0;
+      } else if (options.firstThresholdValue > 100) {
+        options.firstThresholdValue = 100;
+      }
+      firstThresholdArc = options.firstThresholdValue / 100;
+    }
+  }
+  if (options.useSecondThreshold) {
+    if (options.typeSecondThreshold === 'absolute') {
+      if (options.secondThresholdValue < options.secondMin) {
+        options.secondThresholdValue = options.secondMin;
+      } else if (options.secondThresholdValue > options.secondMax) {
+        options.secondThresholdValue = options.secondMax;
+      }
+      secondThresholdArc = (options.secondThresholdValue - options.secondMin) / (options.secondMax - options.secondMin);
+    } else {
+      if (options.secondThresholdValue < 0) {
+        options.secondThresholdValue = 0;
+      } else if (options.secondThresholdValue > 100) {
+        options.secondThresholdValue = 100;
+      }
+      secondThresholdArc = options.secondThresholdValue / 100;
+    }
+  }
+  if (options.useThirdThreshold) {
+    if (options.typeThirdThreshold === 'absolute') {
+      if (options.thirdThresholdValue < options.thirdMin) {
+        options.thirdThresholdValue = options.thirdMin;
+      } else if (options.thirdThresholdValue > options.thirdMax) {
+        options.thirdThresholdValue = options.thirdMax;
+      }
+      thirdThresholdArc = (options.thirdThresholdValue - options.thirdMin) / (options.thirdMax - options.thirdMin);
+    } else {
+      if (options.thirdThresholdValue < 0) {
+        options.thirdThresholdValue = 0;
+      } else if (options.thirdThresholdValue > 100) {
+        options.thirdThresholdValue = 100;
+      }
+      thirdThresholdArc = options.thirdThresholdValue / 100;
+    }
+  }
+  let thresholdArc = Math.min(firstThresholdArc, secondThresholdArc, thirdThresholdArc);
+  switch (thresholdArc) {
+    case firstThresholdArc:
+      thresholdColor = firstThresholdColor;
+      break;
+    case secondThresholdArc:
+      thresholdColor = secondThresholdColor;
+      break;
+    case thirdThresholdArc:
+      thresholdColor = thirdThresholdColor;
+      break;
+  }
+  if (thresholdArc < 1) {
+    let dashValue = outRadius * Math.PI * 2 * mainArc * thresholdArc;
+    let dashBalance = outRadius * Math.PI * 2 - dashValue;
+    dashArray = dashValue + ' ' + dashBalance;
+  }
+  // считывание баз данных
   const radii = data.series
     .filter(series => series.refId === 'A')
     .map(series => {
@@ -121,9 +260,19 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
           r={outRadius}
           cx={width / 2}
           cy={heightUse}
-          stroke={colorGreen}
+          stroke={thresholdColor}
           stroke-width={outWidth}
           stroke-dasharray={outRadius * Math.PI * 2 * mainArc}
+          fill="none"
+        />
+        <circle
+          id="fon"
+          r={outRadius}
+          cx={width / 2}
+          cy={heightUse}
+          stroke={colorGreen}
+          stroke-width={outWidth}
+          stroke-dasharray={dashArray}
           fill="none"
         />
         <circle
@@ -164,6 +313,9 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
           }
           firstValue = Math.round(value);
           let arc = (firstValue - options.firstMin) / (options.firstMax - options.firstMin);
+          if (arc > firstThresholdArc) {
+            firstColor = thresholdColor;
+          }
           let dashValue = firstRadius * Math.PI * 2 * mainArc * arc;
           let dashBalance = firstRadius * Math.PI * 2 - dashValue;
           let dashArray = dashValue + ' ' + dashBalance;
@@ -188,6 +340,9 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
           }
           secondValue = Math.round(value);
           let arc = (secondValue - options.secondMin) / (options.secondMax - options.secondMin);
+          if (arc > secondThresholdArc) {
+            secondColor = thresholdColor;
+          }
           let dashValue = secondRadius * Math.PI * 2 * mainArc * arc;
           let dashBalance = secondRadius * Math.PI * 2 - dashValue;
           let dashArray = dashValue + ' ' + dashBalance;
@@ -212,6 +367,9 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
           }
           thirdValue = Math.round(value);
           let arc = (thirdValue - options.thirdMin) / (options.thirdMax - options.thirdMin);
+          if (arc > thirdThresholdArc) {
+            thirdColor = thresholdColor;
+          }
           let dashValue = thirdRadius * Math.PI * 2 * mainArc * arc;
           let dashBalance = thirdRadius * Math.PI * 2 - dashValue;
           let dashArray = dashValue + ' ' + dashBalance;

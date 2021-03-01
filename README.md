@@ -14,5 +14,5 @@ yarn install
 ```
 4. Запустите плагин.
 ```BASH
-yarn dev
+yarn build
 ```

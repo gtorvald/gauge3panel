@@ -17,31 +17,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addRadio({
       path: 'firstColor',
       name: 'Color of first database',
-      defaultValue: 'green',
+      defaultValue: '#73bf69',
       settings: {
         options: [
           {
-            value: 'red',
+            value: '#ed485b',
             label: 'Red',
           },
           {
-            value: 'green',
+            value: '#73bf69',
             label: 'Green',
           },
           {
-            value: 'blue',
+            value: '#5794f2',
             label: 'Blue',
           },
           {
-            value: 'yellow',
+            value: '#fadf4b',
             label: 'Yellow',
           },
           {
-            value: 'orange',
+            value: '#f3973e',
             label: 'Orange',
           },
           {
-            value: 'purple',
+            value: '#b877d9',
             label: 'Purple',
           },
         ],
@@ -79,31 +79,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addRadio({
       path: 'firstThresholdColor',
       name: 'Color of threshold of first database',
-      defaultValue: 'red',
+      defaultValue: '#ed485b',
       settings: {
         options: [
           {
-            value: 'red',
+            value: '#ed485b',
             label: 'Red',
           },
           {
-            value: 'green',
+            value: '#73bf69',
             label: 'Green',
           },
           {
-            value: 'blue',
+            value: '#5794f2',
             label: 'Blue',
           },
           {
-            value: 'yellow',
+            value: '#fadf4b',
             label: 'Yellow',
           },
           {
-            value: 'orange',
+            value: '#f3973e',
             label: 'Orange',
           },
           {
-            value: 'purple',
+            value: '#b877d9',
             label: 'Purple',
           },
         ],
@@ -123,31 +123,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addRadio({
       path: 'secondColor',
       name: 'Color of second database',
-      defaultValue: 'green',
+      defaultValue: '#73bf69',
       settings: {
         options: [
           {
-            value: 'red',
+            value: '#ed485b',
             label: 'Red',
           },
           {
-            value: 'green',
+            value: '#73bf69',
             label: 'Green',
           },
           {
-            value: 'blue',
+            value: '#5794f2',
             label: 'Blue',
           },
           {
-            value: 'yellow',
+            value: '#fadf4b',
             label: 'Yellow',
           },
           {
-            value: 'orange',
+            value: '#f3973e',
             label: 'Orange',
           },
           {
-            value: 'purple',
+            value: '#b877d9',
             label: 'Purple',
           },
         ],
@@ -174,7 +174,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
           },
         ],
       },
-      showIf: config => config.useFirstThreshold,
+      showIf: config => config.useSecondThreshold,
     })
     .addNumberInput({
       path: 'secondThresholdValue',
@@ -185,31 +185,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addRadio({
       path: 'secondThresholdColor',
       name: 'Color of threshold of second database',
-      defaultValue: 'red',
+      defaultValue: '#ed485b',
       settings: {
         options: [
           {
-            value: 'red',
+            value: '#ed485b',
             label: 'Red',
           },
           {
-            value: 'green',
+            value: '#73bf69',
             label: 'Green',
           },
           {
-            value: 'blue',
+            value: '#5794f2',
             label: 'Blue',
           },
           {
-            value: 'yellow',
+            value: '#fadf4b',
             label: 'Yellow',
           },
           {
-            value: 'orange',
+            value: '#f3973e',
             label: 'Orange',
           },
           {
-            value: 'purple',
+            value: '#b877d9',
             label: 'Purple',
           },
         ],
@@ -229,31 +229,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addRadio({
       path: 'thirdColor',
       name: 'Color of third database',
-      defaultValue: 'green',
+      defaultValue: '#73bf69',
       settings: {
         options: [
           {
-            value: 'red',
+            value: '#ed485b',
             label: 'Red',
           },
           {
-            value: 'green',
+            value: '#73bf69',
             label: 'Green',
           },
           {
-            value: 'blue',
+            value: '#5794f2',
             label: 'Blue',
           },
           {
-            value: 'yellow',
+            value: '#fadf4b',
             label: 'Yellow',
           },
           {
-            value: 'orange',
+            value: '#f3973e',
             label: 'Orange',
           },
           {
-            value: 'purple',
+            value: '#b877d9',
             label: 'Purple',
           },
         ],
@@ -280,7 +280,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
           },
         ],
       },
-      showIf: config => config.useFirstThreshold,
+      showIf: config => config.useSecondThreshold,
     })
     .addNumberInput({
       path: 'thirdThresholdValue',
@@ -291,31 +291,31 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     .addRadio({
       path: 'thirdThresholdColor',
       name: 'Color of threshold of third database',
-      defaultValue: 'red',
+      defaultValue: '#ed485b',
       settings: {
         options: [
           {
-            value: 'red',
+            value: '#ed485b',
             label: 'Red',
           },
           {
-            value: 'green',
+            value: '#73bf69',
             label: 'Green',
           },
           {
-            value: 'blue',
+            value: '#5794f2',
             label: 'Blue',
           },
           {
-            value: 'yellow',
+            value: '#fadf4b',
             label: 'Yellow',
           },
           {
-            value: 'orange',
+            value: '#f3973e',
             label: 'Orange',
           },
           {
-            value: 'purple',
+            value: '#b877d9',
             label: 'Purple',
           },
         ],

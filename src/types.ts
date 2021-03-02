@@ -1,4 +1,5 @@
-type Color = 'red' | 'green' | 'blue' | 'yellow' | 'orange' | 'purple';
+//           'red'     | 'green'   | 'blue'    | 'yellow'  | 'orange'  | 'purple';
+type Color = '#ed485b' | '#73bf69' | '#5794f2' | '#fadf4b' | '#f3973e' | '#b877d9';
 type Threshold = 'absolute' | 'percentage';
 
 export interface SimpleOptions {

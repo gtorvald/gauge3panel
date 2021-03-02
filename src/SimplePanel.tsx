@@ -9,133 +9,10 @@ const colorRed = '#ed485b';
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
-  let firstColor: string;
-  let firstThresholdColor: string;
-  let secondColor: string;
-  let secondThresholdColor: string;
-  let thirdColor: string;
-  let thirdThresholdColor: string;
+  let firstColor = String(options.firstColor);
+  let secondColor = String(options.secondColor);
+  let thirdColor = String(options.thirdColor);
   let thresholdColor = colorRed;
-  switch (options.firstColor) {
-    case 'red':
-      firstColor = '#ed485b';
-      break;
-    case 'green':
-      firstColor = '#73bf69';
-      break;
-    case 'blue':
-      firstColor = '#5794f2';
-      break;
-    case 'orange':
-      firstColor = '#f3973e';
-      break;
-    case 'purple':
-      firstColor = '#b877d9';
-      break;
-    case 'yellow':
-      firstColor = '#fadf4b';
-      break;
-  }
-  switch (options.firstThresholdColor) {
-    case 'red':
-      firstThresholdColor = '#ed485b';
-      break;
-    case 'green':
-      firstThresholdColor = '#73bf69';
-      break;
-    case 'blue':
-      firstThresholdColor = '#5794f2';
-      break;
-    case 'orange':
-      firstThresholdColor = '#f3973e';
-      break;
-    case 'purple':
-      firstThresholdColor = '#b877d9';
-      break;
-    case 'yellow':
-      firstThresholdColor = '#fadf4b';
-      break;
-  }
-  switch (options.secondColor) {
-    case 'red':
-      secondColor = '#ed485b';
-      break;
-    case 'green':
-      secondColor = '#73bf69';
-      break;
-    case 'blue':
-      secondColor = '#5794f2';
-      break;
-    case 'orange':
-      secondColor = '#f3973e';
-      break;
-    case 'purple':
-      secondColor = '#b877d9';
-      break;
-    case 'yellow':
-      secondColor = '#fadf4b';
-      break;
-  }
-  switch (options.secondThresholdColor) {
-    case 'red':
-      secondThresholdColor = '#ed485b';
-      break;
-    case 'green':
-      secondThresholdColor = '#73bf69';
-      break;
-    case 'blue':
-      secondThresholdColor = '#5794f2';
-      break;
-    case 'orange':
-      secondThresholdColor = '#f3973e';
-      break;
-    case 'purple':
-      secondThresholdColor = '#b877d9';
-      break;
-    case 'yellow':
-      secondThresholdColor = '#fadf4b';
-      break;
-  }
-  switch (options.thirdColor) {
-    case 'red':
-      thirdColor = '#ed485b';
-      break;
-    case 'green':
-      thirdColor = '#73bf69';
-      break;
-    case 'blue':
-      thirdColor = '#5794f2';
-      break;
-    case 'orange':
-      thirdColor = '#f3973e';
-      break;
-    case 'purple':
-      thirdColor = '#b877d9';
-      break;
-    case 'yellow':
-      thirdColor = '#fadf4b';
-      break;
-  }
-  switch (options.thirdThresholdColor) {
-    case 'red':
-      thirdThresholdColor = '#ed485b';
-      break;
-    case 'green':
-      thirdThresholdColor = '#73bf69';
-      break;
-    case 'blue':
-      thirdThresholdColor = '#5794f2';
-      break;
-    case 'orange':
-      thirdThresholdColor = '#f3973e';
-      break;
-    case 'purple':
-      thirdThresholdColor = '#b877d9';
-      break;
-    case 'yellow':
-      thirdThresholdColor = '#fadf4b';
-      break;
-  }
   const scale = Math.min(height, width / 2);
   const heightUse = scale * 0.8;
   const outRadius = scale * 0.75;
@@ -147,79 +24,130 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   const fontSizeValue = Math.min(45, scale / 5);
   const fontSizeBaseName = Math.min(15, scale / 15);
   const mainArc = 210 / 360;
-  let firstValue = 0;
-  let secondValue = 0;
-  let thirdValue = 0;
   let firstBaseName: string | undefined = 'null base';
   let secondBaseName: string | undefined = 'null base';
   let thirdBaseName: string | undefined = 'null base';
   const rotate = 'rotate(-195 ' + width / 2 + ' ' + heightUse + ')';
+  // отрисовка дуг
+  function renderCircle(radius: number, color: string, strokeWidth: number, dasharray: string) {
+    return (
+      <circle
+        id="fon"
+        r={radius}
+        cx={width / 2}
+        cy={heightUse}
+        stroke={color}
+        stroke-width={strokeWidth}
+        stroke-dasharray={dasharray}
+        fill="none"
+      />
+    );
+  }
+  // вывод значений на экран в виде дуги и текста
+  function renderValues(
+    value: number,
+    min: number,
+    max: number,
+    thresholdArc: number,
+    radius: number,
+    color: string,
+    valueAndTextX: number,
+    valueY: number,
+    textY: number,
+    baseName: string
+  ) {
+    if (value < min) {
+      value = min;
+    } else if (value > max) {
+      value = max;
+    }
+    value = Math.round(value);
+    let arc = (value - min) / (max - min);
+    if (arc > thresholdArc) {
+      color = thresholdColor;
+    }
+    let dashValue = radius * Math.PI * 2 * mainArc * arc;
+    let dashBalance = radius * Math.PI * 2 - dashValue;
+    let dashArray = dashValue + ' ' + dashBalance;
+    return (
+      <g>
+        <g transform={rotate}>
+          <circle
+            id="fon"
+            r={radius}
+            cx={width / 2}
+            cy={heightUse}
+            stroke={color}
+            stroke-width={mainWidth}
+            stroke-dasharray={dashArray}
+            fill="none"
+          />
+        </g>
+        <text x={valueAndTextX} y={valueY} text-anchor="middle" font-size={fontSizeValue} fill={color}>
+          {value}
+        </text>
+        <text x={valueAndTextX} y={textY} text-anchor="middle" font-size={fontSizeBaseName} fill={color}>
+          {baseName}
+        </text>
+      </g>
+    );
+  }
   // обработка пороговых значений
+  function getThresholdArc(typeThreshold: string, thresholdValue: number, min: number, max: number) {
+    if (typeThreshold === 'absolute') {
+      if (thresholdValue < min) {
+        thresholdValue = min;
+      } else if (thresholdValue > max) {
+        thresholdValue = max;
+      }
+      return (thresholdValue - min) / (max - min);
+    } else {
+      if (thresholdValue < 0) {
+        thresholdValue = 0;
+      } else if (thresholdValue > 100) {
+        thresholdValue = 100;
+      }
+      return thresholdValue / 100;
+    }
+  }
   let dashArray = String(outRadius * Math.PI * 2 * mainArc);
   let firstThresholdArc = 1;
   let secondThresholdArc = 1;
   let thirdThresholdArc = 1;
   if (options.useFirstThreshold) {
-    if (options.typeFirstThreshold === 'absolute') {
-      if (options.firstThresholdValue < options.firstMin) {
-        options.firstThresholdValue = options.firstMin;
-      } else if (options.firstThresholdValue > options.firstMax) {
-        options.firstThresholdValue = options.firstMax;
-      }
-      firstThresholdArc = (options.firstThresholdValue - options.firstMin) / (options.firstMax - options.firstMin);
-    } else {
-      if (options.firstThresholdValue < 0) {
-        options.firstThresholdValue = 0;
-      } else if (options.firstThresholdValue > 100) {
-        options.firstThresholdValue = 100;
-      }
-      firstThresholdArc = options.firstThresholdValue / 100;
-    }
+    firstThresholdArc = getThresholdArc(
+      options.typeFirstThreshold,
+      options.firstThresholdValue,
+      options.firstMin,
+      options.firstMax
+    );
   }
   if (options.useSecondThreshold) {
-    if (options.typeSecondThreshold === 'absolute') {
-      if (options.secondThresholdValue < options.secondMin) {
-        options.secondThresholdValue = options.secondMin;
-      } else if (options.secondThresholdValue > options.secondMax) {
-        options.secondThresholdValue = options.secondMax;
-      }
-      secondThresholdArc = (options.secondThresholdValue - options.secondMin) / (options.secondMax - options.secondMin);
-    } else {
-      if (options.secondThresholdValue < 0) {
-        options.secondThresholdValue = 0;
-      } else if (options.secondThresholdValue > 100) {
-        options.secondThresholdValue = 100;
-      }
-      secondThresholdArc = options.secondThresholdValue / 100;
-    }
+    secondThresholdArc = getThresholdArc(
+      options.typeSecondThreshold,
+      options.secondThresholdValue,
+      options.secondMin,
+      options.secondMax
+    );
   }
   if (options.useThirdThreshold) {
-    if (options.typeThirdThreshold === 'absolute') {
-      if (options.thirdThresholdValue < options.thirdMin) {
-        options.thirdThresholdValue = options.thirdMin;
-      } else if (options.thirdThresholdValue > options.thirdMax) {
-        options.thirdThresholdValue = options.thirdMax;
-      }
-      thirdThresholdArc = (options.thirdThresholdValue - options.thirdMin) / (options.thirdMax - options.thirdMin);
-    } else {
-      if (options.thirdThresholdValue < 0) {
-        options.thirdThresholdValue = 0;
-      } else if (options.thirdThresholdValue > 100) {
-        options.thirdThresholdValue = 100;
-      }
-      thirdThresholdArc = options.thirdThresholdValue / 100;
-    }
+    thirdThresholdArc = getThresholdArc(
+      options.typeThirdThreshold,
+      options.thirdThresholdValue,
+      options.thirdMin,
+      options.thirdMax
+    );
   }
   let thresholdArc = Math.min(firstThresholdArc, secondThresholdArc, thirdThresholdArc);
   switch (thresholdArc) {
     case firstThresholdArc:
-      thresholdColor = firstThresholdColor;
+      thresholdColor = options.firstThresholdColor;
       break;
     case secondThresholdArc:
-      thresholdColor = secondThresholdColor;
+      thresholdColor = options.secondThresholdColor;
       break;
     case thirdThresholdArc:
-      thresholdColor = thirdThresholdColor;
+      thresholdColor = options.thirdThresholdColor;
       break;
   }
   if (thresholdArc < 1) {
@@ -252,196 +180,59 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     })
     .map(series => series.fields.find(field => field.type === 'number'))
     .map(field => field?.values.get(field.values.length - 1));
+  // отрисовка
   return (
     <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width={width} height={height}>
       <g transform={rotate}>
-        <circle
-          id="fon"
-          r={outRadius}
-          cx={width / 2}
-          cy={heightUse}
-          stroke={thresholdColor}
-          stroke-width={outWidth}
-          stroke-dasharray={outRadius * Math.PI * 2 * mainArc}
-          fill="none"
-        />
-        <circle
-          id="fon"
-          r={outRadius}
-          cx={width / 2}
-          cy={heightUse}
-          stroke={colorGreen}
-          stroke-width={outWidth}
-          stroke-dasharray={dashArray}
-          fill="none"
-        />
-        <circle
-          id="fon"
-          r={firstRadius}
-          cx={width / 2}
-          cy={heightUse}
-          stroke={colorGray}
-          stroke-width={mainWidth}
-          stroke-dasharray={firstRadius * Math.PI * 2 * mainArc}
-          fill="none"
-        />
-        <circle
-          id="fon"
-          r={secondRadius}
-          cx={width / 2}
-          cy={heightUse}
-          stroke={colorGray}
-          stroke-width={mainWidth}
-          stroke-dasharray={secondRadius * Math.PI * 2 * mainArc}
-          fill="none"
-        />
-        <circle
-          id="fon"
-          r={thirdRadius}
-          cx={width / 2}
-          cy={heightUse}
-          stroke={colorGray}
-          stroke-width={mainWidth}
-          stroke-dasharray={thirdRadius * Math.PI * 2 * mainArc}
-          fill="none"
-        />
+        {renderCircle(outRadius, thresholdColor, outWidth, String(outRadius * Math.PI * 2 * mainArc))}
+        {renderCircle(outRadius, colorGreen, outWidth, dashArray)}
+        {renderCircle(firstRadius, colorGray, mainWidth, String(firstRadius * Math.PI * 2 * mainArc))}
+        {renderCircle(secondRadius, colorGray, mainWidth, String(secondRadius * Math.PI * 2 * mainArc))}
+        {renderCircle(thirdRadius, colorGray, mainWidth, String(thirdRadius * Math.PI * 2 * mainArc))}
+      </g>
+      <g>
         {radii.map(value => {
-          if (value < options.firstMin) {
-            value = options.firstMin;
-          } else if (value > options.firstMax) {
-            value = options.firstMax;
-          }
-          firstValue = Math.round(value);
-          let arc = (firstValue - options.firstMin) / (options.firstMax - options.firstMin);
-          if (arc > firstThresholdArc) {
-            firstColor = thresholdColor;
-          }
-          let dashValue = firstRadius * Math.PI * 2 * mainArc * arc;
-          let dashBalance = firstRadius * Math.PI * 2 - dashValue;
-          let dashArray = dashValue + ' ' + dashBalance;
-          return (
-            <circle
-              id="fon"
-              r={firstRadius}
-              cx={width / 2}
-              cy={heightUse}
-              stroke={firstColor}
-              stroke-width={mainWidth}
-              stroke-dasharray={dashArray}
-              fill="none"
-            />
+          return renderValues(
+            value,
+            options.firstMin,
+            options.firstMax,
+            firstThresholdArc,
+            firstRadius,
+            firstColor,
+            width / 2 - fontSizeValue,
+            outRadius - fontSizeValue * 0.5,
+            outRadius - fontSizeValue * 0.5 + mainWidth,
+            String(firstBaseName)
           );
         })}
         {radiiB.map(value => {
-          if (value < options.secondMin) {
-            value = options.secondMin;
-          } else if (value > options.secondMax) {
-            value = options.secondMax;
-          }
-          secondValue = Math.round(value);
-          let arc = (secondValue - options.secondMin) / (options.secondMax - options.secondMin);
-          if (arc > secondThresholdArc) {
-            secondColor = thresholdColor;
-          }
-          let dashValue = secondRadius * Math.PI * 2 * mainArc * arc;
-          let dashBalance = secondRadius * Math.PI * 2 - dashValue;
-          let dashArray = dashValue + ' ' + dashBalance;
-          return (
-            <circle
-              id="fon"
-              r={secondRadius}
-              cx={width / 2}
-              cy={heightUse}
-              stroke={secondColor}
-              stroke-width={mainWidth}
-              stroke-dasharray={dashArray}
-              fill="none"
-            />
+          return renderValues(
+            value,
+            options.secondMin,
+            options.secondMax,
+            secondThresholdArc,
+            secondRadius,
+            secondColor,
+            width / 2 + fontSizeValue,
+            outRadius - fontSizeValue * 0.5,
+            outRadius - fontSizeValue * 0.5 + mainWidth,
+            String(secondBaseName)
           );
         })}
         {radiiC.map(value => {
-          if (value < options.thirdMin) {
-            value = options.thirdMin;
-          } else if (value > options.thirdMax) {
-            value = options.thirdMax;
-          }
-          thirdValue = Math.round(value);
-          let arc = (thirdValue - options.thirdMin) / (options.thirdMax - options.thirdMin);
-          if (arc > thirdThresholdArc) {
-            thirdColor = thresholdColor;
-          }
-          let dashValue = thirdRadius * Math.PI * 2 * mainArc * arc;
-          let dashBalance = thirdRadius * Math.PI * 2 - dashValue;
-          let dashArray = dashValue + ' ' + dashBalance;
-          return (
-            <circle
-              id="fon"
-              r={thirdRadius}
-              cx={width / 2}
-              cy={heightUse}
-              stroke={thirdColor}
-              stroke-width={mainWidth}
-              stroke-dasharray={dashArray}
-              fill="none"
-            />
+          return renderValues(
+            value,
+            options.thirdMin,
+            options.thirdMax,
+            thirdThresholdArc,
+            thirdRadius,
+            thirdColor,
+            width / 2,
+            outRadius + fontSizeValue * 0.75,
+            outRadius + fontSizeValue * 0.75 + mainWidth,
+            String(thirdBaseName)
           );
         })}
-      </g>
-      <g>
-        <text
-          x={width / 2 - fontSizeValue}
-          y={outRadius - fontSizeValue * 0.5}
-          text-anchor="middle"
-          font-size={fontSizeValue}
-          fill={firstColor}
-        >
-          {firstValue}
-        </text>
-        <text
-          x={width / 2 - fontSizeValue}
-          y={outRadius - fontSizeValue * 0.5 + mainWidth}
-          text-anchor="middle"
-          font-size={fontSizeBaseName}
-          fill={firstColor}
-        >
-          {firstBaseName}
-        </text>
-        <text
-          x={width / 2 + fontSizeValue}
-          y={outRadius - fontSizeValue * 0.5}
-          text-anchor="middle"
-          font-size={fontSizeValue}
-          fill={secondColor}
-        >
-          {secondValue}
-        </text>
-        <text
-          x={width / 2 + fontSizeValue}
-          y={outRadius - fontSizeValue * 0.5 + mainWidth}
-          text-anchor="middle"
-          font-size={fontSizeBaseName}
-          fill={secondColor}
-        >
-          {secondBaseName}
-        </text>
-        <text
-          x={width / 2}
-          y={outRadius + fontSizeValue * 0.75}
-          text-anchor="middle"
-          font-size={fontSizeValue}
-          fill={thirdColor}
-        >
-          {thirdValue}
-        </text>
-        <text
-          x={width / 2}
-          y={outRadius + fontSizeValue * 0.75 + mainWidth}
-          text-anchor="middle"
-          font-size={fontSizeBaseName}
-          fill={thirdColor}
-        >
-          {thirdBaseName}
-        </text>
       </g>
     </svg>
   );

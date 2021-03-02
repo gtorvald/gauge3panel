@@ -71,18 +71,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     let dashArray = dashValue + ' ' + dashBalance;
     return (
       <g>
-        <g transform={rotate}>
-          <circle
-            id="fon"
-            r={radius}
-            cx={width / 2}
-            cy={heightUse}
-            stroke={color}
-            stroke-width={mainWidth}
-            stroke-dasharray={dashArray}
-            fill="none"
-          />
-        </g>
+        <g transform={rotate}>{renderCircle(radius, color, mainWidth, dashArray)}</g>
         <text x={valueAndTextX} y={valueY} text-anchor="middle" font-size={fontSizeValue} fill={color}>
           {value}
         </text>

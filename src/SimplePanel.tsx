@@ -16,13 +16,13 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   const scale = Math.min(height, width / 2);
   const heightUse = scale * 0.8;
   const outRadius = scale * 0.75;
-  const outWidth = Math.min(5, scale / 45);
-  const mainWidth = Math.min(15, scale / 15);
+  const outWidth = Math.min(7, scale / 45);
+  const mainWidth = Math.min(21, scale / 15);
   const firstRadius = outRadius - outWidth * 2 - 1;
   const secondRadius = firstRadius - mainWidth - 1;
   const thirdRadius = secondRadius - mainWidth - 1;
-  const fontSizeValue = Math.min(45, scale / 5);
-  const fontSizeBaseName = Math.min(15, scale / 15);
+  const fontSizeValue = Math.min(45, scale / 7);
+  const fontSizeBaseName = Math.min(15, scale / 21);
   const mainArc = 210 / 360;
   let firstBaseName: string | undefined = 'null base';
   let secondBaseName: string | undefined = 'null base';
@@ -61,7 +61,6 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     } else if (value > max) {
       value = max;
     }
-    value = Math.round(value);
     let arc = (value - min) / (max - min);
     if (arc > thresholdArc) {
       color = thresholdColor;
@@ -69,11 +68,36 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     let dashValue = radius * Math.PI * 2 * mainArc * arc;
     let dashBalance = radius * Math.PI * 2 - dashValue;
     let dashArray = dashValue + ' ' + dashBalance;
+    let powValue = '';
+    if (Math.abs(value) < 10) {
+      value = Number(value.toFixed(3));
+    } else if (Math.abs(value) < 100) {
+      value = Number(value.toFixed(2));
+    } else if (Math.abs(value) < 1000) {
+      value = Number(value.toFixed(1));
+    } else {
+      value = Math.round(value);
+      if (Math.abs(value) >= 10000) {
+        let isNegative = 0;
+        if (value < 0) {
+          isNegative = 1;
+          value = Math.abs(value);
+        }
+        let num = String(value);
+        let pow = Math.pow(10, num.length - 1);
+        value /= pow;
+        value = Number(value.toFixed(2));
+        if (isNegative === 1) {
+          value = -value;
+        }
+        powValue = 'e' + String(num.length - 1);
+      }
+    }
     return (
       <g>
         <g transform={rotate}>{renderCircle(radius, color, mainWidth, dashArray)}</g>
         <text x={valueAndTextX} y={valueY} text-anchor="middle" font-size={fontSizeValue} fill={color}>
-          {value}
+          {value + powValue}
         </text>
         <text x={valueAndTextX} y={textY} text-anchor="middle" font-size={fontSizeBaseName} fill={color}>
           {baseName}
@@ -188,9 +212,9 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
             firstThresholdArc,
             firstRadius,
             firstColor,
-            width / 2 - fontSizeValue,
-            outRadius - fontSizeValue * 0.5,
-            outRadius - fontSizeValue * 0.5 + mainWidth,
+            width / 2,
+            outRadius - fontSizeValue * 1.75,
+            outRadius - fontSizeValue * 1.75 + mainWidth,
             String(firstBaseName)
           );
         })}
@@ -202,7 +226,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
             secondThresholdArc,
             secondRadius,
             secondColor,
-            width / 2 + fontSizeValue,
+            width / 2,
             outRadius - fontSizeValue * 0.5,
             outRadius - fontSizeValue * 0.5 + mainWidth,
             String(secondBaseName)

@@ -9,10 +9,58 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
       name: 'Min for first database',
       defaultValue: 0,
     })
+    .addRadio({
+      path: 'typeFirstMax',
+      name: 'Type of max value for first database',
+      defaultValue: 'users',
+      settings: {
+        options: [
+          {
+            value: 'users',
+            label: "User's value",
+          },
+          {
+            value: 'max',
+            label: 'Max',
+          },
+          {
+            value: 'maxRound',
+            label: 'Rounding max',
+          },
+          {
+            value: 'otherBaseValue',
+            label: 'value of other database',
+          },
+        ],
+      },
+    })
     .addNumberInput({
       path: 'firstMax',
-      name: 'Max fo first database',
+      name: 'Max for first database',
       defaultValue: 100,
+      showIf: config => config.typeFirstMax === 'users',
+    })
+    .addRadio({
+      path: 'typeFirstMaxDataBase',
+      name: 'Choose database',
+      defaultValue: 'A',
+      settings: {
+        options: [
+          {
+            value: 'A',
+            label: 'A',
+          },
+          {
+            value: 'B',
+            label: 'B',
+          },
+          {
+            value: 'C',
+            label: 'C',
+          },
+        ],
+      },
+      showIf: config => config.typeFirstMax === 'otherBaseValue',
     })
     .addRadio({
       path: 'firstColor',
@@ -112,13 +160,61 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     })
     .addNumberInput({
       path: 'secondMin',
-      name: 'Min fo second database',
+      name: 'Min for second database',
       defaultValue: 0,
+    })
+    .addRadio({
+      path: 'typeSecondMax',
+      name: 'Type of max value for second database',
+      defaultValue: 'users',
+      settings: {
+        options: [
+          {
+            value: 'users',
+            label: "User's value",
+          },
+          {
+            value: 'max',
+            label: 'Max',
+          },
+          {
+            value: 'maxRound',
+            label: 'Rounding max',
+          },
+          {
+            value: 'otherBaseValue',
+            label: 'value of other database',
+          },
+        ],
+      },
     })
     .addNumberInput({
       path: 'secondMax',
-      name: 'Max fo second database',
+      name: 'Max for second database',
       defaultValue: 100,
+      showIf: config => config.typeSecondMax === 'users',
+    })
+    .addRadio({
+      path: 'typeSecondMaxDataBase',
+      name: 'Choose database',
+      defaultValue: 'A',
+      settings: {
+        options: [
+          {
+            value: 'A',
+            label: 'A',
+          },
+          {
+            value: 'B',
+            label: 'B',
+          },
+          {
+            value: 'C',
+            label: 'C',
+          },
+        ],
+      },
+      showIf: config => config.typeSecondMax === 'otherBaseValue',
     })
     .addRadio({
       path: 'secondColor',
@@ -218,13 +314,61 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
     })
     .addNumberInput({
       path: 'thirdMin',
-      name: 'Min fo third database',
+      name: 'Min for third database',
       defaultValue: 0,
+    })
+    .addRadio({
+      path: 'typeThirdMax',
+      name: 'Type of max value for third database',
+      defaultValue: 'users',
+      settings: {
+        options: [
+          {
+            value: 'users',
+            label: "User's value",
+          },
+          {
+            value: 'max',
+            label: 'Max',
+          },
+          {
+            value: 'maxRound',
+            label: 'Rounding max',
+          },
+          {
+            value: 'otherBaseValue',
+            label: 'value of other database',
+          },
+        ],
+      },
     })
     .addNumberInput({
       path: 'thirdMax',
-      name: 'Max fo third database',
+      name: 'Max for third database',
       defaultValue: 100,
+      showIf: config => config.typeThirdMax === 'users',
+    })
+    .addRadio({
+      path: 'typeThirdMaxDataBase',
+      name: 'Choose database',
+      defaultValue: 'A',
+      settings: {
+        options: [
+          {
+            value: 'A',
+            label: 'A',
+          },
+          {
+            value: 'B',
+            label: 'B',
+          },
+          {
+            value: 'C',
+            label: 'C',
+          },
+        ],
+      },
+      showIf: config => config.typeThirdMax === 'otherBaseValue',
     })
     .addRadio({
       path: 'thirdColor',

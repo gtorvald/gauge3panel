@@ -6,6 +6,10 @@ const colorGray = '#202226';
 const colorGreen = '#73bf69';
 const colorRed = '#ed485b';
 
+let firstMax = 10;
+let secondMax = 10;
+let thirdMax = 10;
+
 interface Props extends PanelProps<SimpleOptions> {}
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
@@ -16,8 +20,8 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   const scale = Math.min(height, width / 2);
   const heightUse = scale * 0.8;
   const outRadius = scale * 0.75;
-  const outWidth = Math.min(7, scale / 45);
-  const mainWidth = Math.min(21, scale / 15);
+  const outWidth = Math.min(5, scale / 45);
+  const mainWidth = Math.min(15, scale / 15);
   const firstRadius = outRadius - outWidth * 2 - 1;
   const secondRadius = firstRadius - mainWidth - 1;
   const thirdRadius = secondRadius - mainWidth - 1;
@@ -28,6 +32,15 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   let secondBaseName: string | undefined = 'null base';
   let thirdBaseName: string | undefined = 'null base';
   const rotate = 'rotate(-195 ' + width / 2 + ' ' + heightUse + ')';
+  if (options.typeFirstMax === 'users') {
+    firstMax = options.firstMax;
+  }
+  if (options.typeSecondMax === 'users') {
+    secondMax = options.secondMax;
+  }
+  if (options.typeThirdMax === 'users') {
+    thirdMax = options.thirdMax;
+  }
   // отрисовка дуг
   function renderCircle(radius: number, color: string, strokeWidth: number, dasharray: string) {
     return (
@@ -44,6 +57,33 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     );
   }
   // вывод значений на экран в виде дуги и текста
+  let valueA = 0;
+  let valueB = 0;
+  let valueC = 0;
+  function writeNewValuesOfDataBases(dataBase: string, value: number) {
+    switch (dataBase) {
+      case 'A':
+        valueA = value;
+        break;
+      case 'B':
+        valueB = value;
+        break;
+      case 'C':
+        valueC = value;
+    }
+  }
+  function writeNewValuesOfMax(dataBase: string, max: number) {
+    switch (dataBase) {
+      case 'A':
+        firstMax = max;
+        break;
+      case 'B':
+        secondMax = max;
+        break;
+      case 'C':
+        thirdMax = max;
+    }
+  }
   function renderValues(
     value: number,
     min: number,
@@ -54,13 +94,53 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     valueAndTextX: number,
     valueY: number,
     textY: number,
-    baseName: string
+    baseName: string,
+    dataBase: string,
+    typeMax: string,
+    typeMaxDataBase: string
   ) {
     if (value < min) {
       value = min;
-    } else if (value > max) {
+    }
+    // обработка максимального значения
+    switch (typeMax) {
+      case 'max':
+        if (value > max) {
+          max = value;
+          writeNewValuesOfMax(dataBase, max);
+        }
+        writeNewValuesOfDataBases(dataBase, value);
+        break;
+      case 'maxRound':
+        // alert(max);
+        if (value >= max) {
+          // alert(value + ' ' + max);
+          while (value >= max) {
+            max = max * 10;
+          }
+          // alert(value + ' ' + max);
+          writeNewValuesOfMax(dataBase, max);
+        }
+        writeNewValuesOfDataBases(dataBase, value);
+        break;
+      case 'otherBaseValue':
+        switch (typeMaxDataBase) {
+          case 'A':
+            max = valueA;
+            break;
+          case 'B':
+            max = valueB;
+            break;
+          case 'C':
+            max = valueC;
+            break;
+        }
+        break;
+    }
+    if (value > max) {
       value = max;
     }
+    // основная работа по отрисовке
     let arc = (value - min) / (max - min);
     if (arc > thresholdArc) {
       color = thresholdColor;
@@ -68,6 +148,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     let dashValue = radius * Math.PI * 2 * mainArc * arc;
     let dashBalance = radius * Math.PI * 2 - dashValue;
     let dashArray = dashValue + ' ' + dashBalance;
+    // сокращение больших чисел
     let powValue = '';
     if (Math.abs(value) < 10) {
       value = Number(value.toFixed(3));
@@ -205,47 +286,59 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       </g>
       <g>
         {radii.map(value => {
-          return renderValues(
-            value,
-            options.firstMin,
-            options.firstMax,
-            firstThresholdArc,
-            firstRadius,
-            firstColor,
-            width / 2,
-            outRadius - fontSizeValue * 1.75,
-            outRadius - fontSizeValue * 1.75 + mainWidth,
-            String(firstBaseName)
-          );
+          valueA = value;
         })}
         {radiiB.map(value => {
-          return renderValues(
-            value,
-            options.secondMin,
-            options.secondMax,
-            secondThresholdArc,
-            secondRadius,
-            secondColor,
-            width / 2,
-            outRadius - fontSizeValue * 0.5,
-            outRadius - fontSizeValue * 0.5 + mainWidth,
-            String(secondBaseName)
-          );
+          valueB = value;
         })}
         {radiiC.map(value => {
-          return renderValues(
-            value,
-            options.thirdMin,
-            options.thirdMax,
-            thirdThresholdArc,
-            thirdRadius,
-            thirdColor,
-            width / 2,
-            outRadius + fontSizeValue * 0.75,
-            outRadius + fontSizeValue * 0.75 + mainWidth,
-            String(thirdBaseName)
-          );
+          valueC = value;
         })}
+        {renderValues(
+          valueA,
+          options.firstMin,
+          firstMax,
+          firstThresholdArc,
+          firstRadius,
+          firstColor,
+          width / 2,
+          outRadius - fontSizeValue * 1.75,
+          outRadius - fontSizeValue * 1.75 + mainWidth,
+          String(firstBaseName),
+          'A',
+          options.typeFirstMax,
+          options.typeFirstMaxDataBase
+        )}
+        {renderValues(
+          valueB,
+          options.secondMin,
+          secondMax,
+          secondThresholdArc,
+          secondRadius,
+          secondColor,
+          width / 2,
+          outRadius - fontSizeValue * 0.5,
+          outRadius - fontSizeValue * 0.5 + mainWidth,
+          String(secondBaseName),
+          'B',
+          options.typeSecondMax,
+          options.typeSecondMaxDataBase
+        )}
+        {renderValues(
+          valueC,
+          options.thirdMin,
+          thirdMax,
+          thirdThresholdArc,
+          thirdRadius,
+          thirdColor,
+          width / 2,
+          outRadius + fontSizeValue * 0.75,
+          outRadius + fontSizeValue * 0.75 + mainWidth,
+          String(thirdBaseName),
+          'C',
+          options.typeThirdMax,
+          options.typeThirdMaxDataBase
+        )}
       </g>
     </svg>
   );
